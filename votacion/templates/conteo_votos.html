@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+    Bienvenido al sistema de votaciones
+{% endblock titulo %}
+
+{% block contenido %}
+
+<br>
+<h1>Conteo de votos</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <td>Imagen</td>
+            <td>Datos del candidato</td>
+            <td>Número de votos</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for candidato, num_votos in candidatos.items %}
+            <tr>
+                <td><img src="{{ candidato.imagen.url }}" alt="{{candidato.imagen}}" width="100"></td>
+                <td>
+                    <p>{{candidato}}</p>
+                    <p>{{candidato.partido}}</p>
+                </td>
+                <td>{{ num_votos }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock contenido %}

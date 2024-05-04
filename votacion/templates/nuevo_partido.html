@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+    Bienvenido al sistema de votaciones
+{% endblock titulo %}
+
+{% block contenido %}
+<br>
+<hr>
+<body>
+    <h1>Nueva Partido</h1>
+    <form method="post" class="form">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit" class="btn btn-success">Agregar</button>
+        <a class="btn btn-warning" href="{% url 'lista_partidos' %}">Cancelar</a>
+    </form>
+</body>
+{% endblock contenido %}

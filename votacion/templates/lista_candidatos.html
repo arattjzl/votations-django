@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+    Bienvenido al sistema de votaciones
+{% endblock titulo %}
+
+{% block contenido %}
+<br>
+<hr>
+<body>
+    <h1>Candidatos políticos registrados</h1>
+    <a class="btn btn-primary" href="{% url 'nuevo_candidato' %}">Nuevo candidato</a>
+    <form method="post" class="form">
+        {% csrf_token %}
+        <table width="70%" class="table">
+            <thead>
+                <tr>
+                    <td></td>
+                    <td>{{form.nombre}}</td>
+                    <td>{{form.apellido_pat}}</td>
+                    <td>{{form.apellido_mat}}</td>
+                    <td>{{form.partido}}</td>
+                    <td>
+                        <button class="btn btn-primary bt-sm" type="submit">Buscar</button>
+                    </td>
+                </tr>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Apellido Paterno</th>
+                    <th>Apellido Materno</th>
+                    <th>Partido</th>
+                    <th>Imagen</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for candidato in candidatos %}
+                    <tr>
+                        <td>{{candidato.id}}</td>
+                        <td>{{candidato.nombre}}</td>
+                        <td>{{candidato.apellido_pat}}</td>
+                        <td>{{candidato.apellido_mat}}</td>
+                        <td>{{candidato.partido}}</td>
+
+                        {% if candidato.imagen %}
+                            <td><img src="{{ candidato.imagen.url }}" alt="{{candidato.imagen}}" width="100"></td>
+                        {% else %}
+                            <td>Sin imagen</td>
+                        {% endif %}
+
+                        <td>
+                            <a href="{% url 'eliminar_candidato' candidato.id %}" class="btn btn-danger">Eliminar</a>
+                            <a href="{% url 'editar_candidato' candidato.id %}" class="btn btn-outline-primary">Editar</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </form>
+    <div class="pagination">
+        <span class="step-links">
+            {% if candidatos.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ candidatos.previous_page_number }}">previous</a>
+            {% endif %}
+    
+            <span class="current">
+                Page {{ candidatos.number }} of {{ candidatos.paginator.num_pages }}.
+            </span>
+    
+            {% if candidatos.has_next %}
+                <a href="?page={{ candidatos.next_page_number }}">next</a>
+                <a href="?page={{ candidatos.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+</body>
+{% endblock contenido %}

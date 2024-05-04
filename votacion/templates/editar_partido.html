@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+    Bienvenido al Sistema de votaciones
+{% endblock titulo %}
+
+{% block contenido %}
+<br>
+<hr>
+<body>
+    <h1>Actualizar partido político</h1>
+    <a href="{% url 'lista_partidos' %}"></a>
+    <form method="post" class="form">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit">Guardar</button>
+    </form>
+</body>
+{% endblock contenido %}

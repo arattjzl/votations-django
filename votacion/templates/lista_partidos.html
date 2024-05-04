@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+    Bienvenido al sistema de votaciones
+{% endblock titulo %}
+
+{% block contenido %}
+<br>
+<hr>
+<body>
+    <h1>Partidos políticos registrados</h1>
+    <a class="btn btn-primary" href="{% url 'nuevo_partido' %}">Nuevo partido</a>
+    <form method="post" class="form">
+        {% csrf_token %}
+        <table width="70%" class="table">
+            <thead>
+                <tr>
+                    <td></td>
+                    <td>{{form.nombre}}</td>
+                    <td>{{form.descripcion}}</td>
+                    <td>
+                        <button class="btn btn-primary bt-sm" type="submit">Buscar</button>
+                    </td>
+                </tr>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Description</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for partido in partidos %}
+                    <tr>
+                        <td>{{partido.id}}</td>
+                        <td>{{partido.nombre}}</td>
+                        <td>{{partido.descripcion}}</td>
+                        <td>
+                            <a href="{% url 'eliminar_partido' partido.id %}" class="btn btn-danger">Eliminar</a>
+                            <a href="{% url 'editar_partido' partido.id %}" class="btn btn-outline-primary">Editar</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </form>
+    <div class="pagination">
+        <span class="step-links">
+            {% if partidos.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ partidos.previous_page_number }}">previous</a>
+            {% endif %}
+    
+            <span class="current">
+                Page {{ partidos.number }} of {{ partidos.paginator.num_pages }}.
+            </span>
+    
+            {% if partidos.has_next %}
+                <a href="?page={{ partidos.next_page_number }}">next</a>
+                <a href="?page={{ partidos.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+</body>
+{% endblock contenido %}
